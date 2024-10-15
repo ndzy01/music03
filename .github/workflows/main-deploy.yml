@@ -28,6 +28,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
   deployJob:
+    needs: updateData
     name: deployJob
     runs-on: ubuntu-latest
     steps:
