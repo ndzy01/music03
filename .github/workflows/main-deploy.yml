@@ -6,7 +6,29 @@ on:
       - main
 
 jobs:
+  updateData:
+    name: updateData
+    runs-on: ubuntu-latest
+    steps:
+      - name: 切换分支
+        uses: actions/checkout@v3
+        with: { ref: main }
+      - name: 配置 git
+        run: |
+          git config --local user.email "2326962137@qq.com"
+          git config --local user.name "action-bot"
+      - name: 更新数据
+        run: |
+          node public/ndzy.js
+          git add .
+          git commit -a -m "更新数据 $(date +"%D %T")"
+      - name: 推送
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
   deployJob:
+    name: deployJob
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
